@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>HelpMe</title>
+      <link rel="stylesheet" href="/stylesheets/main.css" />
+      <link rel="stylesheet" href="/stylesheets/liste-tickets.css" />
+   </head>
+   <body>
+      <%- include('fragments/_header') %>
+
+      <div class="page-container">
+         <h1 class="page-title">Tickets</h1>
+
+         <% if (session?.user) { %>
+         <h2 class="btn margin-auto">
+            <a href="/tickets/ajouter">Ajouter un ticket</a>
+         </h2>
+         <% } %>
+
+         <section class="tickets-section">
+            <div class="tickets-container">
+               <% if(tickets.length === 0) { %>
+               <p>Aucun ticket</p>
+               <% } %> <% for (let i = 0; i < tickets.length; i++) { %>
+               <div class="ticket-list">
+                  <div class="ticket-item">
+                     <h2 class="ticket-title">
+                        <a href="/tickets/<%= tickets[i]._id %>"
+                           ><%= tickets[i].titre %></a
+                        >
+                     </h2>
+
+                     <p class="ticket-description">
+                        <%- tickets[i].description %>
+                     </p>
+
+                     <% if (session.user && (session.user.role === 2 ||
+                     session.user._id === tickets[i].auteur._id)) { %>
+                     <div class="actions-capsules">
+                        <a
+                           class="btn btn-capsule"
+                           href="/tickets/<%= tickets[i]._id %>/modifier"
+                           >Modifier</a
+                        >
+                        <a
+                           class="btn btn-capsule"
+                           href="/tickets/<%= tickets[i]._id %>/supprimer"
+                           >Supprimer</a
+                        >
+                     </div>
+                     <% } %>
+                     <a
+                        class="ticket-detail-link"
+                        href="/tickets/<%= tickets[i]._id %>"
+                     >
+                        Détail du ticket
+                        <svg
+                           class="ticket-detail-icon"
+                           viewBox="0 0 24 24"
+                           stroke="currentColor"
+                           stroke-width="2"
+                           fill="none"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                        >
+                           <path d="M5 12h14"></path>
+                           <path d="M12 5l7 7-7 7"></path>
+                        </svg>
+                     </a>
+                     <div class="ticket-etat">
+                        <% if(tickets[i].etat === 'ouvert') { %>
+                        <span class="ticket-ouvert">Ouvert</span>
+                        <% } else { %>
+                        <span class="ticket-clos">Clos</span>
+                        <% } %>
+                     </div>
+                     <div class="ticket-infos">
+                        <span class="ticket-auteur"
+                           ><%= tickets[i].auteur.name %></span
+                        >
+                        <span class="ticket-date"
+                           ><%=tickets[i].creation_formatted %></span
+                        >
+                     </div>
+                  </div>
+               </div>
+               <% } %>
+            </div>
+         </section>
+      </div>
+
+      <%- include('fragments/_footer') %>
+   </body>
+</html>

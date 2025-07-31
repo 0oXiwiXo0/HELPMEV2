@@ -1,0 +1,74 @@
+.ticket-list {
+   display: flex;
+   flex-direction: column;
+   padding: 1rem;
+}
+
+.ticket-item {
+   position: relative;
+   padding: 0.25rem 1rem 0.25rem 1rem;
+   display: flex;
+   flex-direction: column;
+   border: 1px solid lightblue;
+   border-radius: 1rem;
+}
+
+.ticket-infos {
+   width: fit-content(50%);
+   margin-left: auto;
+   display: flex;
+   flex-direction: row;
+   gap: 1.5rem;
+}
+
+.ticket-etat {
+   position: absolute;
+   top: 1rem;
+   right: 1rem;
+   width: min-content;
+   font-weight: 400;
+   font-family: inherit;
+   color: #374151;
+}
+
+.ticket-auteur {
+   font-weight: 400;
+   font-family: inherit;
+   color: #374151;
+}
+
+.ticket-date {
+   color: #6b7280;
+   font-weight: 200;
+}
+
+.ticket-content {
+   flex-grow: 1;
+}
+
+.ticket-title {
+   font-size: 1.5rem;
+   font-weight: 500;
+   color: #111827; /* text-gray-900 */
+   font-family: inherit;
+   margin-bottom: 0.1rem;
+}
+
+.ticket-description {
+   line-height: 1.2;
+}
+
+.ticket-detail-link {
+   color: #6366f1; /* text-indigo-500 */
+   display: inline-flex;
+   align-items: center;
+   margin-top: 1rem;
+   text-decoration: none;
+   font-family: inherit;
+}
+
+.ticket-detail-icon {
+   width: 1rem;
+   height: 1rem;
+   margin-left: 0.5rem;
+}

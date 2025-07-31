@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Calque_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+  <defs>
+    <style>
+      .cls-1 {
+        font-size: 120px;
+      }
+
+      .cls-1, .cls-2 {
+        fill: #fff;
+        font-family: CourierNewPSMT, 'Courier New';
+      }
+
+      .cls-3 {
+        fill: #515ddb;
+      }
+
+      .cls-2 {
+        font-size: 110px;
+      }
+    </style>
+  </defs>
+  <g>
+    <path class="cls-3" d="M80,153.5c-40.53,0-73.5-32.97-73.5-73.5S39.47,6.5,80,6.5s73.5,32.97,73.5,73.5-32.97,73.5-73.5,73.5Z"/>
+    <path class="cls-3" d="M80,7c40.25,0,73,32.75,73,73s-32.75,73-73,73S7,120.25,7,80,39.75,7,80,7M80,6C39.13,6,6,39.13,6,80s33.13,74,74,74,74-33.13,74-74S120.87,6,80,6h0Z"/>
+  </g>
+  <text class="cls-1" transform="translate(29.15 94.71)"><tspan x="0" y="0">S</tspan></text>
+  <text class="cls-2" transform="translate(61.15 131.58)"><tspan x="0" y="0">G</tspan></text>
+  <path class="cls-3" d="M80,6.05c40.78,0,73.95,33.18,73.95,73.95s-33.18,73.95-73.95,73.95S6.05,120.78,6.05,80,39.22,6.05,80,6.05M80,5.05C38.6,5.05,5.05,38.6,5.05,80s33.56,74.95,74.95,74.95,74.95-33.56,74.95-74.95S121.4,5.05,80,5.05h0Z"/>
+</svg>

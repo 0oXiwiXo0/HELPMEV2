@@ -1,0 +1,15 @@
+body {
+  padding: 1 rem;
+  color: #3d434b;
+  font-family: "Lucida Grande", Helvetica, "Noto Sans", Arial, sans-serif;
+}
+
+a {
+  color: #1e40af;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #00b7ff;
+  transition: color 0.2s;
+}

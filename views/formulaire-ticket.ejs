@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>HelpMe</title>
+      <link rel="stylesheet" href="/stylesheets/main.css" />
+   </head>
+   <body>
+      <%- include('fragments/_header') %>
+
+      <div class="page-container">
+         <h1 class="page-title"><%= titre %></h1>
+
+         <% if (typeof errors!='undefined' && errors && errors.length > 0) { %>
+         <div class="error-message">Des erreurs sont apparues !</div>
+         <% } %>
+         <form action="/tickets/enregistrer" class="form" method="post">
+            <input type="hidden" name="_id" value="<%= ticket?._id %>" />
+            <label for="titre">Titre <span class="required">*</span></label>
+            <input
+               type="text"
+               id="titre"
+               name="titre"
+               value="<%= ticket?.titre %>"
+               class="form-input"
+               requiredXX
+               placeholder="Entrez le titre du ticket"
+            />
+            <% if (typeof errors!='undefined' && errors) { console.dir(errors);
+            const titreError = errors.find(e => e.path === 'titre'); if
+            (titreError) { %>
+            <p class="error-message"><%= titreError.msg %></p>
+            <% } } %>
+            </br>
+            <label for="description"
+               >Description <span class="required">*</span></label
+            >
+            <textarea
+               id="description"
+               name="description"
+               class="form-textarea"
+               rows="4"
+               placeholder="Description du problème rencontré"
+               xxminlength="3"
+            >
+<%= ticket?.description %></textarea
+            >
+            <% if (typeof errors!='undefined' && errors) {
+            const descriptionError = errors.find(e => e.path === 'description');
+            if (descriptionError) { %>
+            <p class="error-message"><%= descriptionError.msg %></p>
+            <% } } %>
+
+            <button type="submit" class="form-btn">Valider</button>
+         </form>
+      </div>
+
+      <%- include('fragments/_footer') %>
+   </body>
+</html>

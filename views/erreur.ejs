@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>HelpMe</title>
+      <link rel="stylesheet" href="/stylesheets/main.css" />
+   </head>
+   <body>
+      <%- include('fragments/_header') %>
+
+      <div class="page-container">
+         <h1 class="page-title"><%= titre %></h1>
+
+         <h3 class="">Description :</h3>
+         <p class=""><%= message %></p>
+      </div>
+
+      <%- include('fragments/_footer') %>
+   </body>
+</html>

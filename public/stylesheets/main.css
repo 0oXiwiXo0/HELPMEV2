@@ -1,0 +1,154 @@
+@import './balises.css';
+@import './composants.css';
+
+/* pages fragments */
+.page-title {
+   font-size: 2.5rem;
+   margin-bottom: 1rem;
+   margin: auto;
+}
+
+.page-container {
+   max-width: 1200px;
+   min-height: 300px;
+   margin-left: auto;
+   margin-right: auto;
+   padding: 1.25rem;
+}
+
+/* header */
+.header {
+   position: sticky;
+   top: 0;
+   z-index: 50;
+   background-color: #1e40af; /* #818cf8; */
+}
+
+.header a {
+   color: #fff; /*#4b5563; */
+}
+
+.header a:hover {
+   color: #00b7ff;
+   transition: color 0.5s;
+}
+
+.header-container {
+   max-width: 1200px; /* container */
+   margin-left: auto;
+   margin-right: auto;
+   display: flex;
+   flex-wrap: wrap;
+   padding: 1.25rem;
+   flex-direction: column;
+   align-items: center;
+}
+
+@media (min-width: 768px) {
+   .header-container {
+      flex-direction: row;
+   }
+}
+
+.header-brand {
+   display: flex;
+   align-items: center;
+   font-weight: 500;
+   margin-bottom: 1rem;
+   /* color: #111827;*/
+   text-decoration: none;
+}
+
+@media (min-width: 768px) {
+   .header-brand {
+      margin-bottom: 0;
+   }
+}
+
+.brand-logo {
+   width: 2.5rem;
+   height: 2.5rem;
+   color: #fff;
+   padding: 0.5rem;
+   background-color: #6366f1;
+   border-radius: 9999px;
+   object-fit: cover;
+}
+
+.brand-title {
+   margin-left: 0.75rem;
+   font-size: 1.25rem;
+}
+
+.header-nav {
+   display: flex;
+   flex-wrap: wrap;
+   align-items: center;
+   justify-content: center;
+   margin-left: 0;
+}
+
+@media (min-width: 768px) {
+   .header-nav {
+      margin-left: auto;
+   }
+}
+
+.nav-link {
+   margin-right: 1.25rem;
+   font-size: 1rem;
+   text-decoration: none;
+}
+
+/* footer */
+.footer {
+   position: relative;
+   bottom: 0;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 1rem;
+   background-color: #1e40af;
+   color: #fff;
+}
+
+.footer .logo {
+   width: 2rem;
+   height: 2rem;
+}
+
+.ajouter-ticket-title {
+   width: max-content;
+   margin-left: auto;
+   margin-right: auto;
+   margin-top: 0.25rem;
+   color: #fff;
+   background-color: #6366f1; /* indigo-500 */
+   border: none;
+   padding-top: 0.5rem;
+   padding-bottom: 0.5rem;
+   padding-left: 2rem;
+   padding-right: 2rem;
+   border-radius: 0.5rem;
+   font-size: 1.125rem;
+   transition: background 0.2s;
+}
+
+.tickets-section {
+   font-family: inherit;
+   overflow: hidden;
+}
+
+.tickets-container {
+   max-width: 1200px;
+   padding-left: 1.25rem;
+   padding-right: 1.25rem;
+   padding-top: 1rem;
+   padding-bottom: 1rem;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+.error-message {
+   color: red;
+}
