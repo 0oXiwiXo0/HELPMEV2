@@ -1,20 +1,18 @@
-const express = require('express');
-const router = express.Router();
-const { v4: uuidv4 } = require('uuid');
+const { MongoClient } = require("mongodb");
+require("dotenv").config();
 
+const client = new MongoClient(process.env.DB_URL);
+const db = client.db(process.env.DB_NAME);
 
-const db = require('../config/test'); // Fichier où la connexion MongoDB est configurée
+client
+  .connect()
+  .then(() => console.log("Connexion à MongoDB réussie"))
+  .catch((err) => {
+    console.log("Erreur de connexion à MongoDB. ", err);
+    process.exit(1);
+  });
 
-router.post('/tickets', async (req, res) => {
-  try {
-    const result = await db.collection('tickets').insertOne({
-      name: req.body.city,
-      uuid: uuidv4()
-    });
-    res.status(201).json({ message: 'ticket ajouté', id: result.insertedId });
-  } catch (error) {
-    res.status(500).json({ error: 'Erreur lors de l\'ajout du ticket' });
-  }
-});
+const ticketsCollection = db.collection("tickets");
+const usersCollection = db.collection("users");
 
-module.exports = router;
+module.exports = { ticketsCollection, usersCollection };

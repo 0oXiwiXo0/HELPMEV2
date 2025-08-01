@@ -9,13 +9,16 @@ let {
    isFormateurOrAuteur,
 } = require('../services/authService');
 
+const pino = require('pino');
+const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
+
 function toTicketDto(ticket) {
    let copie = { ...ticket };
    copie.creation_formatted = format(ticket.creation, 'dd/MM/yyyy HH:mm');
    if (ticket.description && ticket.description.length > 50) {
       copie.description = ticket.description.substring(0, 50) + '...';
    } else {
-      copie.description = ticket.description || '';
+      copie.description = '';
    }
    return copie;
 }
@@ -27,13 +30,6 @@ app.get(['/', '/tickets'], async (req, res) => {
       tickets[i] = toTicketDto(tickets[i]);
    }
 
-   res.render('liste-tickets', { tickets, session: req.session });
-});
-
-// Liste des tickets
-app.get(['/', '/tickets'], async (req, res) => {
-   let tickets = await ticketsService.findTickets();
-   tickets = tickets.map(toTicketDto);
    res.render('liste-tickets', { tickets, session: req.session });
 });
 
@@ -51,8 +47,9 @@ app.get('/tickets/:id', async function (req, res) {
    const ticket = await ticketsService.findTicketById(req.params.id);
 
    if (!ticket) {
-      console.warn(`Ticket non trouvé : ${req.params.id}`);
-      return res.status(404).send('Ticket non trouvé');
+      /* TODO: si le ticket n'existe pas, on trace une erreur dans les logs */
+
+      throw new Error('Le ticket ' + req.params.id + " n'a pas été trouvé");
    }
 
    res.render('detail-ticket', {
@@ -61,73 +58,67 @@ app.get('/tickets/:id', async function (req, res) {
    });
 });
 
-/* Enregistrement d'un ticket */
 app.post(
    '/tickets/enregistrer',
    isAuthenticated,
    body('titre').trim().notEmpty().withMessage('Champ obligatoire'),
-   body('titre').trim().isLength({ max: 50 }).withMessage('Maximum 50 caractères'),
+   body('titre')
+      .trim()
+      .isLength({ max: 50 })
+      .withMessage('Maximum 50 caractères'),
    body('description')
       .trim()
-      .isLength({ min: 3 }).withMessage('Minimum 3 caractères')
-      .isLength({ max: 2000 }).withMessage('Maximum 2000 caractères'),
-   async (req, res) => {
+      .isLength({ min: 3 })
+      .withMessage('Minimum 3 caractères')
+      .isLength({ max: 2000 })
+      .withMessage('Maximum 2000 caractères'),
+   (req, res) => {
+      logger.debug('post-/tickets/enregistrer-body : ', req.body);
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-         return res.render('formulaire-ticket', {
-            titre: req.body._id ? 'Modification ticket' : 'Nouveau ticket',
+         res.render('formulaire-ticket', {
+            titre: 'Modification ticket',
             session: req.session,
             ticket: req.body,
             errors: errors.array(),
          });
+         logger.debug('post-/tickets/enregistrer-errors : ', errors.array());
+         return;
       }
-
+      logger.debug(
+         "post-/tickets/enregistrer-req-pas d'erreur de validation : ",
+         req.body,
+      );
       const auteur = req.session.user;
 
-      try {
-         if (!req.body._id) {
-            await ticketsService.addTicket(
-               req.body.titre,
-               auteur,
-               req.body.description
-            );
-         } else {
-            await ticketsService.updateTicket(
-               req.body._id,
-               req.body.titre,
-               req.body.description
-            );
-         }
-         return res.redirect('/tickets');
-      } catch (error) {
-         console.error("Erreur lors de l'enregistrement du ticket:", error);
-         res.render('formulaire-ticket', {
-            titre: req.body._id ? 'Modification ticket' : 'Nouveau ticket',
-            session: req.session,
-            ticket: req.body,
-            errors: [{ msg: "Erreur serveur lors de l'enregistrement du ticket" }],
-         });
+      if (!req.body._id) {
+         ticketsService.addTicket(req.body.titre, auteur, req.body.description);
+      } else {
+         ticketsService.updateTicket(
+            req.body._id,
+            req.body.titre,
+            req.body.description,
+         );
       }
-   }
+
+      res.redirect('/tickets');
+   },
 );
 
 /* Suppression d'un ticket */
 app.get(
    '/tickets/:id/supprimer',
    isFormateurOrAuteur,
-   async function (req, res, next) {
-      await ticketsService.deleteTicket(req.params.id);
+   function (req, res, next) {
+      ticketsService.deleteTicket(req.params.id);
+
       res.redirect('/tickets');
-   }
+   },
 );
 
 /* Affichage de la page de modification de ticket */
 app.get('/tickets/:id/modifier', isAuthenticated, async function (req, res) {
    const ticket = await ticketsService.findTicketById(req.params.id);
-   if (!ticket) {
-      console.warn(`Ticket à modifier non trouvé : ${req.params.id}`);
-      return res.status(404).send('Ticket non trouvé');
-   }
    res.render('formulaire-ticket', {
       session: req.session,
       titre: 'Modification ticket',
